@@ -1,18 +1,19 @@
 {
   "name": "cul-de-chouette-backend",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
+  "version": "0.0.1",
+  "description": "cul de chouette backend",
   "keywords": [],
   "dependencies": {
-    "sails": "^1.1.0",
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/lodash": "^3.10.3",
+    "@sailshq/socket.io-redis": "^5.2.0",
     "grunt": "1.0.1",
+    "sails": "^1.1.0",
     "sails-hook-grunt": "^3.1.0",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^1.5.5",
-    "@sailshq/connect-redis": "^3.2.1",
-    "@sailshq/socket.io-redis": "^5.2.0",
-    "@sailshq/lodash": "^3.10.3"
+    "sails-mysql": "^1.0.1"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"
@@ -28,7 +29,7 @@
     "type": "git",
     "url": "git://github.com/anonymous node/sails user/cul-de-chouette-backend.git"
   },
-  "author": "anonymous node/sails user",
+  "author": "GRAINGER",
   "license": "",
   "engines": {
     "node": "^11.1"
