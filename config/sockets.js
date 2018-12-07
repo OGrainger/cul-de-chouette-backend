@@ -46,7 +46,8 @@ module.exports.sockets = {
 
      // `true` allows the socket to connect.
      // (`false` would reject the connection)
-     return proceed(undefined, true);
+      sails.log.info('socket connected');
+      return proceed(undefined, true);
 
    },
 
@@ -64,7 +65,8 @@ module.exports.sockets = {
 
      // By default: do nothing.
      // (but always trigger the callback)
-     return done();
+      sails.log.info('socket disconnected');
+      return done();
 
    },
 
