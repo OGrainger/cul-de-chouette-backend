@@ -19,4 +19,6 @@ module.exports.bootstrap = async function () {
       { username: 'oscar', password: '1234', },
       { username: 'clem', password: '1234', },
     ]);
+
+    await Room.create({ name: 'Salle 1'});
 };
