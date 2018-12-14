@@ -11,7 +11,7 @@
 
 module.exports.bootstrap = async function () {
 
-    if (await User.count() > 0) {
+    /*if (await User.count() > 0) {
       return;
     }
 
@@ -20,5 +20,5 @@ module.exports.bootstrap = async function () {
       { username: 'clem', password: '1234', },
     ]);
 
-    await Room.create({ name: 'Salle 1'});
+    await Room.create({ name: 'Salle 1'});*/
 };

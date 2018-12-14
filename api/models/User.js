@@ -4,10 +4,10 @@ module.exports = {
     attributes: {
         username: { type: 'string', required: true },
         password: { type: 'string', required: true },
-        players: {
+        /*players: {
             collection: 'Player',
             via: 'user'
-        }
+        }*/
     },
 
     beforeCreate: (user, next) => {
