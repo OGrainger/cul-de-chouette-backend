@@ -2,8 +2,8 @@ module.exports = {
     autosubscribe: ['destroy', 'update'],
     attributes: {
         name: { type: 'string', required: true},
-        turnCount: { type: 'number', defaultsTo: 0 },
-        status: { type: 'string', defaultsTo: 'CREATED' },
+        turnCount: { type: 'number', defaultsTo: 1 },
+        status: { type: 'string', defaultsTo: 'ACTIVE' },
         players: {
             collection: 'Player',
             via: 'room'

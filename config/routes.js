@@ -11,6 +11,7 @@
 module.exports.routes = {
 
   'GET /room/:roomId/sub': 'GameController.sub',
-  'POST /room/:roomId/newPlayer': 'GameController.newPlayer'
-
+  'POST /room/:roomId/newPlayer': 'GameController.newPlayer',
+  'DELETE /room/:roomId/player/:playerId': 'GameController.removePlayer',
+  'POST /room/:roomId/player/:playerId/action': 'GameController.playerAction',
 };

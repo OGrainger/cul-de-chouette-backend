@@ -3,8 +3,8 @@ module.exports = {
     attributes: {
         //user: { model: 'user' },
         username: { type: 'string', required: true},
-        isGameMaster: { type: 'boolean', defaultsTo: false },
         isPlayersTurn: { type: 'boolean', defaultsTo: false },
+        order: { type: 'number', defaultsTo: 0 },
         chouette1: { type: 'number' },
         chouette2: { type: 'number' },
         cul: { type: 'number' },
