@@ -84,34 +84,44 @@ module.exports = {
         let deleted = await Player.archiveOne({id: playerId});
 
         if (deleted) {
-            // Update order of each next players
-            room.players.forEach(async p => {
-                if (p.order > deleted.order) {
-                    await Player.updateOne({id: p.id}, {order: p.order - 1});
-                    p.order = p.order - 1;
-                }
-            });
+            sails.log.info(`Player ${deleted.username} (PLAYER ID: ${deleted.id}) left room ${room.name} (ROOM ID: ${room.id})`);
 
-            // Update who's turn it is
-            let newPlayersTurn;
-            if (deleted.isPlayersTurn) {
-                newPlayersTurn = Helpers.findNewRole(deleted, room.players);
-                if (newPlayersTurn) {
-                    newPlayersTurn = await Player.updateOne({id: newPlayersTurn.id}, {isPlayersTurn: true});
-                    // If new turn's is the first player, increment turn
-                    if (newPlayersTurn.order === 1) {
-                        await Room.updateOne({id: roomId}, {turnCount: room.turnCount + 1});
-                        sails.log.info(`Room ${room.name} is now at turn ${room.turnCount} (ROOM ID: ${room.id})`);
+
+            // Update turn if no one is left
+            let playersLeft = await Player.find({room: room.id});
+            if (!playersLeft.length) {
+                await Room.updateOne({id: roomId}, {turnCount: 1});
+                sails.log.info(` room ${room.name} (ROOM ID: ${room.id}) was reset`);
+                res.ok();
+            } else {
+                // Update order of each next players
+                room.players.forEach(async p => {
+                    if (p.order > deleted.order) {
+                        await Player.updateOne({id: p.id}, {order: p.order - 1});
+                        p.order = p.order - 1;
+                    }
+                });
+
+                // Update who's turn it is
+                let newPlayersTurn;
+                if (deleted.isPlayersTurn) {
+                    newPlayersTurn = Helpers.findNewRole(deleted, room.players);
+                    if (newPlayersTurn) {
+                        newPlayersTurn = await Player.updateOne({id: newPlayersTurn.id}, {isPlayersTurn: true});
+                        // If new turn's is the first player, increment turn
+                        if (newPlayersTurn.order === 1) {
+                            await Room.updateOne({id: roomId}, {turnCount: room.turnCount + 1});
+                            sails.log.info(`Room ${room.name} is now at turn ${room.turnCount} (ROOM ID: ${room.id})`);
+                        }
                     }
                 }
-            }
 
-            sails.sockets.broadcast(socketRoomName, 'PLAYER_LEFT', {
-                playerDeleted: deleted,
-                newPlayersTurn
-            });
-            sails.log.info(`Player ${deleted.username} (PLAYER ID: ${deleted.id}) left room ${room.name} (ROOM ID: ${room.id})`);
-            res.ok();
+                sails.sockets.broadcast(socketRoomName, 'PLAYER_LEFT', {
+                    playerDeleted: deleted,
+                    newPlayersTurn
+                });
+                res.ok();
+            }
         } else {
             res.badRequest();
         }
@@ -159,7 +169,7 @@ module.exports = {
             sails.log.info(`Player ${player.username} (PLAYER ID: ${player.id}) has ${results.combinaison} ! (Room ${room.name} ID: ${room.id})`);
 
             let newScore = player.score + results.score;
-            if (newScore >= 343) {
+            if (newScore >= 50) {
                 sails.log.info(`Player ${player.username} (PLAYER ID: ${player.id}) WON !!! (Room ${room.name} ID: ${room.id})`);
                 sails.sockets.broadcast(socketRoomName, 'PLAYER_WON', {
                     player
