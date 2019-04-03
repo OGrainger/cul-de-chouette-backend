@@ -19,7 +19,7 @@ module.exports.datastores = {
     default: {
 
         adapter: 'sails-mysql',
-        url: 'mysql://cdc.backend:cdc@localhost:3306/cul-de-chouette',
+        url: 'mysql://b537b52a5f6b6d:378aa82f@eu-cdbr-west-02.cleardb.net/heroku_e784c312beb3d49?reconnect=true',
         connectTimeout: 20000
 
     },

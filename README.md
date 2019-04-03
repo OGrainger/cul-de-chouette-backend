@@ -2,7 +2,6 @@
 
 a [Sails v1](https://sailsjs.com) application
 
-## Installation
+## Start
 
-ALTER USER 'cdc.backend'@'localhost' IDENTIFIED WITH mysql_native_password BY 'cdc'
-
+sails lift

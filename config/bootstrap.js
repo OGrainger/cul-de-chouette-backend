@@ -18,7 +18,8 @@ module.exports.bootstrap = async function () {
     await User.createEach([
       { username: 'oscar', password: '1234', },
       { username: 'clem', password: '1234', },
-    ]);
+    ]);*/
 
-    await Room.create({ name: 'Salle 1'});*/
+    await Room.create({ name: 'Salle 1'});
+    await Room.create({ name: 'Salle 2'});
 };
