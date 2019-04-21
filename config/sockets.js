@@ -29,6 +29,9 @@ module.exports.sockets = {
 
    transports: [ 'websocket' ],
 
+    pingInterval: 10000,
+    pingTimeout: 20000,
+
 
   /***************************************************************************
   *                                                                          *
