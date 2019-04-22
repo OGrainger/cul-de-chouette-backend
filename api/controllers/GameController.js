@@ -90,8 +90,8 @@ module.exports = {
             // Update turn if no one is left
             let playersLeft = await Player.find({room: room.id});
             if (!playersLeft.length) {
-                await Room.updateOne({id: roomId}, {turnCount: 1});
-                sails.log.info(` room ${room.name} (ROOM ID: ${room.id}) was reset`);
+                await Room.archiveOne({id: roomId});
+                sails.log.info(` room ${room.name} (ROOM ID: ${room.id}) was deleted`);
                 res.ok();
             } else {
                 // Update order of each next players
@@ -170,10 +170,11 @@ module.exports = {
 
             let newScore = player.score + results.score;
             if (newScore >= 50) {
-                sails.log.info(`Player ${player.username} (PLAYER ID: ${player.id}) WON !!! (Room ${room.name} ID: ${room.id})`);
                 sails.sockets.broadcast(socketRoomName, 'PLAYER_WON', {
                     player
                 });
+                await Room.archiveOne({id: roomId});
+                sails.log.info(`Player ${player.username} (PLAYER ID: ${player.id}) WON !!! (Room ${room.name} ID: ${room.id} was deleted)`);
                 res.ok();
             } else {
                 await Player.updateOne({id: player.id}, {score: newScore, cul: cul, isPlayersTurn: false});
