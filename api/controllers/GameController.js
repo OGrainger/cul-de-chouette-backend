@@ -81,7 +81,7 @@ module.exports = {
             return res.badRequest({errorCode: 'PLAYER_NOT_IN_ROOM_ERROR'})
         }
 
-        let deleted = await Player.archiveOne({id: playerId});
+        let deleted = await Player.deleteOne({id: playerId});
 
         if (deleted) {
             sails.log.info(`Player ${deleted.username} (PLAYER ID: ${deleted.id}) left room ${room.name} (ROOM ID: ${room.id})`);
@@ -90,7 +90,7 @@ module.exports = {
             // Update turn if no one is left
             let playersLeft = await Player.find({room: room.id});
             if (!playersLeft.length) {
-                await Room.archiveOne({id: roomId});
+                await Room.deleteOne({id: roomId});
                 sails.log.info(` room ${room.name} (ROOM ID: ${room.id}) was deleted`);
                 res.ok();
             } else {
@@ -173,7 +173,7 @@ module.exports = {
                 sails.sockets.broadcast(socketRoomName, 'PLAYER_WON', {
                     player
                 });
-                await Room.archiveOne({id: roomId});
+                await Room.deleteOne({id: roomId});
                 sails.log.info(`Player ${player.username} (PLAYER ID: ${player.id}) WON !!! (Room ${room.name} ID: ${room.id} was deleted)`);
                 res.ok();
             } else {
